@@ -17,6 +17,8 @@ class SearchArtistController extends Controller
             $name = $_POST["name"];
             $q= $name;
 
+            $name = str_replace(" ", "%20", $name);
+
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, "https://api.spotify.com/v1/search?q=$name&type=artist");
             curl_setopt($ch, CURLOPT_HTTPHEADER, array('Authorization: Bearer ' . $_SESSION['token'] ));
