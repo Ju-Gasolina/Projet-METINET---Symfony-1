@@ -27,7 +27,7 @@
                 <a class="nav-link" href="/test">Test</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/searchArtist/list">Search</a>
+                <a class="nav-link" href="/searchArtist/list">Search artist</a>
             </li>
         </ul>
     </div>

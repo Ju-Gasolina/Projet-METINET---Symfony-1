@@ -7,7 +7,7 @@ class SearchArtistController extends Controller
 {
     public function index()
     {
-        $this->render('test/test');
+        $this->render('main/index');
     }
 
     public function list()

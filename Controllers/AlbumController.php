@@ -7,21 +7,15 @@ class AlbumController extends Controller
 {
     public function index()
     {
-        $this->render('test/test');
+        $this->render('main/index');
     }
 
-    public function list()
+    public function list($id)
     {
-        $params = substr($_SERVER['REQUEST_URI'], 1);
-        $params = explode('/', $params);
-
-        if(isset($params[2]) && !empty($params[2]))
+        if(isset($id) && !empty($id))
         {
-            $params = substr($_SERVER['REQUEST_URI'], 1);
-            $params = explode('/', $params);
-
             $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, "https://api.spotify.com/v1/artists/".$params[2]."/albums");
+            curl_setopt($ch, CURLOPT_URL, "https://api.spotify.com/v1/artists/".$id."/albums?limit=50");
             curl_setopt($ch, CURLOPT_HTTPHEADER, array('Authorization: Bearer ' . $_SESSION['token'] ));
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             $result = json_decode(curl_exec($ch));
@@ -44,11 +38,12 @@ class AlbumController extends Controller
                 array_push($albums, new Album($item->id, $item->name, $item->release_date, $item->total_tracks, $item->external_urls->spotify, $image));
             }
 
-            $this->render('album/list', compact('albums', 'artist'));
+            $this->render('albums/list', compact('albums', 'artist'));
         }
         else
         {
-            $this->render('album/list');
+            $artist = "";
+            $this->render('albums/list', compact('artist'));
         }
     }
 }
