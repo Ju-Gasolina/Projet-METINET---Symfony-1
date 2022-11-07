@@ -106,8 +106,10 @@ class Artist
                 <div class='card-body'>
                     <p class='card-title h5 text-center'>".$this->getName()."</p>
                     <p class='card-text'>".$gendersText."</p>
-                    <a href=".$linkText." class='btn btn-secondary text-white' title='Cliquer pour voir la page Spotify de cet artiste' target='_blank'>Page Spotify de l'artiste</a>
-                    <a href='/album/list/".$this->getId()."' class='btn btn-secondary text-white' title='Cliquer pour voir les albums de cet artiste' target='_blank'>Albums de l'artiste</a>
+                    <div class='text-center'>
+                        <a href=".$linkText." class='btn btn-secondary text-white' title='Cliquer pour voir la page Spotify de cet artiste' target='_blank'>Page Spotify de l'artiste</a>
+                        <a href='/album/list/".$this->getId()."' class='btn btn-secondary text-white' title='Cliquer pour voir les albums de cet artiste' target='_blank'>Albums de l'artiste</a>
+                    </div>
                 </div>
             </div>
         </div>

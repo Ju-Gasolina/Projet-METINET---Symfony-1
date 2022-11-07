@@ -111,7 +111,9 @@ class Track
                     <p class='card-title h5 text-center'>".$this->getName()."</p>
                     <p class='card-text'>Numéro de la musique : ".$this->getTrackNumber()."</p>
                     <p class='card-text'>Durée de la musique (en ms) : ".$this->getDuration()."</p>
-                    <a href=".$this->getLink()." class='btn btn-secondary text-white' title='Cliquer pour voir la page Spotify de cette musique' target='_blank'>Page Spotify de la musique</a>
+                    <div class='text-center'>
+                        <a href=".$this->getLink()." class='btn btn-secondary text-white' title='Cliquer pour voir la page Spotify de cette musique' target='_blank'>Page Spotify de la musique</a>
+                    </div>
                 </div>
             </div>
         </div>

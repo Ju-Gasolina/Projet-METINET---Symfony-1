@@ -99,13 +99,15 @@ class Album
                     <p class='card-title h5 text-center'>".$this->getName()."</p>
                     <p class='card-text'>Date de sortie : ".$this->getReleaseDate()."</p>
                     <p class='card-text'>Nombre de musiques : ".$this->getTotalTracks()."</p>
-                    <a href=".$this->getLink()." class='btn btn-secondary text-white' title='Cliquer pour voir la page Spotify de cet albums' target='_blank'>Page Spotify de l'album</a>
                     
-                     <form action='/track/list/".$this->getId()."' method='post'>
-                        <input type='hidden' name='albumName' value='".$this->getName()."'>
-                        <input type='hidden' name='albumPicture' value='".$this->getPicture()."'>
-                        <button class='btn btn-secondary text-white' type='submit' title='Cliquer pour voir les musiques de cet album' target='_blank'>Cliquer pour voir les musiques de cet album</button>
-                    </form>
+                    <div class='text-center'>
+                        <a href=".$this->getLink()." class='btn btn-secondary text-white' title='Cliquer pour voir la page Spotify de cet albums' target='_blank'>Page Spotify de l'album</a>
+                         <form action='/track/list/".$this->getId()."' method='post' target='_blank'>
+                            <input type='hidden' name='albumName' value='".$this->getName()."'>
+                            <input type='hidden' name='albumPicture' value='".$this->getPicture()."'>
+                            <button class='btn btn-secondary text-white' type='submit' title='Cliquer pour voir les musiques de cet album'>Musiques de cet album</button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>

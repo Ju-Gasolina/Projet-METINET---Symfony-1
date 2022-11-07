@@ -2,54 +2,78 @@
 <html lang="fr">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Titre</title>
-
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
-          integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/css/template.css">
 </head>
 
 <body>
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="/">Mes pages</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
+    <header>
+        <nav class="navbar navbar-dark bg-dark box-shadow">
+            <div class="container py-3">
+                <a href="/" class="nav col-12 col-lg-auto my-2
+                    justify-content-center my-md-0 h2 text-secondary" id="application">Spotify API</a>
+                <ul class="nav col-12 col-lg-auto my-2
+                            justify-content-center my-md-0 h6">
+                    <li>
+                        <a href="/" class="nav-link
+                                    text-primary">
+                            <i class="icon icon_house"></i>
+                            Accueil
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/test" class="nav-link text-white">
+                            <i class="icon icon_info-circle"></i>
+                            Test
+                        </a>
+                    </li>
+                    <li>
+                        <div id="nav-btn">
+                            <a href="/searchArtist/list" class="btn btn-outline-secondary">Search artist</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
 
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
-                <a class="nav-link" href="/">Accueil</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/test">Test</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/searchArtist/list">Search artist</a>
-            </li>
-        </ul>
-    </div>
-</nav>
+    <main class="bg-light min-vh-100">
+        <!--        --><?php //if(!empty($_SESSION['erreur'])): ?>
+        <!--            <div class="alert alert-danger" role="alert">-->
+        <!--                --><?php //echo $_SESSION['erreur']; unset($_SESSION['erreur']); ?>
+        <!--            </div>-->
+        <!--        --><?php //endif; ?>
+        <!--        --><?php //if(!empty($_SESSION['message'])): ?>
+        <!--            <div class="alert alert-success" role="alert">-->
+        <!--                --><?php //echo $_SESSION['message']; unset($_SESSION['message']); ?>
+        <!--            </div>-->
+        <!--        --><?php //endif; ?>
+        <?= $contenu ?>
+    </main>
 
-<div class="container">
-    <!--        --><?php //if(!empty($_SESSION['erreur'])): ?>
-    <!--            <div class="alert alert-danger" role="alert">-->
-    <!--                --><?php //echo $_SESSION['erreur']; unset($_SESSION['erreur']); ?>
-    <!--            </div>-->
-    <!--        --><?php //endif; ?>
-    <!--        --><?php //if(!empty($_SESSION['message'])): ?>
-    <!--            <div class="alert alert-success" role="alert">-->
-    <!--                --><?php //echo $_SESSION['message']; unset($_SESSION['message']); ?>
-    <!--            </div>-->
-    <!--        --><?php //endif; ?>
-    <?= $contenu ?>
-</div>
+    <footer class="py-3 py-4 bg-dark">
+        <div class="container">
+            <nav>
+                <ul class="nav justify-content-center border-bottom pb-3 mb-3">
+                    <li class="nav-item"><a href="#" class="nav-link
+                                px-2 text-white"><i class="icon icon_facebook"></i> Facebook</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link
+                                px-2 text-white"><i class="icon icon_instagram"></i> Instagram</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link
+                                px-2 text-white"><i class="icon icon_linkedin"></i> LinkedIn</a></li>
+                </ul>
+            </nav>
+            <p class="text-center text-white">&copy; Copyright 2022 - CARRA
+                Justin</p>
+        </div>
+    </footer>
 
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
-        integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
-        crossorigin="anonymous"></script>
+    <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
+            crossorigin="anonymous"></script>
 </body>
 
 </html>
