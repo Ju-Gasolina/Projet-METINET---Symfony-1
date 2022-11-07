@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Entity;
 
 use App\Core\Db;
 
@@ -30,6 +30,7 @@ class Model extends Db
             // bindValue(1, valeur)
             $fields[] = "$field = ?";
             $values[] = $value;
+
         }
 
         // On transforme le tableau "champs" en une chaine de caractères
@@ -56,7 +57,14 @@ class Model extends Db
             if ($value !== null && $field != 'db' && $field != 'table') {
                 $fields[] = $field;
                 $inter[] = "?";
-                $values[] = $value;
+                if(is_array($value))
+                {
+                    $values[] = json_encode($value);
+                }
+                else
+                {
+                    $values[] = $value;
+                }
             }
         }
 

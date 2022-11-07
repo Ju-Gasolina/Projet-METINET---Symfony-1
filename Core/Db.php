@@ -15,7 +15,7 @@ class Db extends PDO
     private const DBHOST = 'localhost';
     private const DBUSER = 'root';
     private const DBPASS = '';
-    private const DBNAME = 'demo';
+    private const DBNAME = 'symfony1';
 
     private function __construct()
     {

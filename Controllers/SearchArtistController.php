@@ -49,4 +49,15 @@ class SearchArtistController extends Controller
             $this->render('search_artists/list', compact('q'));
         }
     }
+
+    public function addFavorite($idSpotify)
+    {
+        $genders = json_decode($_POST['genders']);
+
+        $artist = new Artist($_POST['idSpotify'],$_POST['name'],$_POST['followers'],$genders,$_POST['link'],$_POST['pictures']);
+
+        $artist->create();
+
+        header("Location:/searchArtist/list");
+    }
 }

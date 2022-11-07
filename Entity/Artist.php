@@ -2,15 +2,15 @@
 
 namespace App\Entity;
 
-class Artist
+class Artist extends Model
 {
-
+    public int $id;
     public function __construct(
-        public string $id,
+        public string $idSpotify,
 
         public string $name,
 
-        public int    $followers,
+        public int $followers,
 
         public array  $genders,
 
@@ -19,16 +19,17 @@ class Artist
         public string $picture,
     )
     {
+        $this->table = "artists";
     }
 
     public function getId(): string
     {
-        return $this->id;
+        return $this->idSpotify;
     }
 
-    public function setId(string $id): self
+    public function setId(string $idSpotify): self
     {
-        $this->id = $id;
+        $this->idSpotify = $idSpotify;
         return $this;
     }
 
@@ -109,6 +110,16 @@ class Artist
                     <div class='text-center'>
                         <a href=".$linkText." class='btn btn-secondary text-white' title='Cliquer pour voir la page Spotify de cet artiste' target='_blank'>Page Spotify de l'artiste</a>
                         <a href='/album/list/".$this->getId()."' class='btn btn-secondary text-white' title='Cliquer pour voir les albums de cet artiste' target='_blank'>Albums de l'artiste</a>
+                        <form action='/SearchArtist/addFavorite/".$this->getId()."' method='post'>
+                            <input type='hidden' name='idSpotify' value='".$this->getId()."'>
+                            <input type='hidden' name='name' value='".$this->getName()."'>
+                            <input type='hidden' name='followers' value='".$this->getFollowers()."'>
+                            <input type='hidden' name='genders' value='". json_encode($this->getGenders()) ."'>
+                            <input type='hidden' name='link' value='".$this->getLink()."'>
+                            <input type='hidden' name='pictures' value='".$this->getPicture()."'>
+                            
+                            <button class='btn btn-primary text-white' type='submit' title='Cliquer pour cet artiste à vos favoris'>Ajouter à vos favoris</button>
+                        </form>
                     </div>
                 </div>
             </div>
