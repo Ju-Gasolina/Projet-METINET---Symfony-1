@@ -17,6 +17,8 @@ class Album extends Model
         public string $link,
 
         public string $picture,
+
+        public string $artistIdSpotify,
     )
     {
         $this->table = "albums";
@@ -100,29 +102,41 @@ class Album extends Model
         return $this;
     }
 
+    public function getArtistIdSpotify(): string
+    {
+        return $this->artistIdSpotify;
+    }
+
+    public function setArtistIdSpotify(string $artistIdSpotify): self
+    {
+        $this->artistIdSpotify = $artistIdSpotify;
+        return $this;
+    }
+
     public function display(): string
     {
-        $albumSearch = new Album('', '', 0, 0, '', '');
+        $albumSearch = new Album('', '', 0, 0, '', '', '');
         $resultSearch = $albumSearch->findBy(array('idSpotify' => $this->getIdSpotify()));
 
         if(empty($resultSearch))
         {
             $favoriteAction =
-                "<form action='/album/addFavorite/".$this->getIdSpotify()."' method='post' class='card-title px-1' target='_blank'>
-                    <input type='hidden' name='idSpotify' value='".$this->getIdSpotify()."'>
-                    <input type='hidden' name='name' value='".$this->getName()."'>
-                    <input type='hidden' name='releaseDate' value='".$this->getReleaseDate()."'>
-                    <input type='hidden' name='totalTracks' value='".$this->getTotalTracks()."'>
-                    <input type='hidden' name='link' value='".$this->getLink()."'>
-                    <input type='hidden' name='picture' value='".$this->getPicture()."'>
+                '<form action="/album/addFavorite/'.$this->getIdSpotify().'" method="post" class="card-title px-1">
+                    <input type="hidden" name="idSpotify" value="'.$this->getIdSpotify().'">
+                    <input type="hidden" name="name" value="'.$this->getName().'">
+                    <input type="hidden" name="releaseDate" value="'.$this->getReleaseDate().'">
+                    <input type="hidden" name="totalTracks" value="'.$this->getTotalTracks().'">
+                    <input type="hidden" name="link" value="'.$this->getLink().'">
+                    <input type="hidden" name="picture" value="'.$this->getPicture().'">
+                    <input type="hidden" name="artistIdSpotify" value="'.$this->getArtistIdSpotify().'">
                     
-                    <button class='icon icon_star' type='submit' title='Cliquer pour ajouter cet album à vos favoris'></button>
-                </form>";
+                    <button class="icon icon_star" type="submit" title="Cliquer pour ajouter cet album à vos favoris"></button>
+                </form>';
         }
         else
         {
             $favoriteAction =
-                "<form action='/album/deleteFavorite/".$this->getId()."' method='post' class='card-title px-1' target='_blank'>        
+                "<form action='/album/deleteFavorite/".$this->getId()."' method='post' class='card-title px-1'>        
                     <button class='icon icon_star-fill text-warning' type='submit' title='Cliquer pour supprimer cet album de vos favoris'></button>
                 </form>";
         }
@@ -143,11 +157,7 @@ class Album extends Model
                     <p class='card-text'>Nombre de musiques : ".$this->getTotalTracks()."</p>
                     <div class='text-center'>
                         <a href=".$this->getLink()." class='btn btn-secondary text-white' title='Cliquer pour voir la page Spotify de cet albums' target='_blank'>Page Spotify de l'album</a>
-                         <form action='/track/list/".$this->getIdSpotify()."' method='post' target='_blank'>
-                            <input type='hidden' name='albumName' value='".$this->getName()."'>
-                            <input type='hidden' name='albumPicture' value='".$this->getPicture()."'>
-                            <button class='btn btn-secondary text-white' type='submit' title='Cliquer pour voir les musiques de cet album'>Musiques de cet album</button>
-                        </form>
+                        <a href='/track/list/".$this->getIdSpotify()."' class='btn btn-secondary text-white' title='Cliquer pour voir les musiques de cet album' target='_blank'>Musiques de cet album</a>
                     </div>
                 </div>
             </div>

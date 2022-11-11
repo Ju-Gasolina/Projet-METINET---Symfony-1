@@ -11,25 +11,32 @@ class TrackController extends Controller
         $this->render('main/index', [], 'home');
     }
 
-    public function list($idTrack)
+    public function list($idAlbum)
     {
-        if(isset($idTrack) && !empty($idTrack))
+        if(isset($idAlbum) && !empty($idAlbum))
         {
             // Album
-            if(isset($_POST['albumName']) && isset($_POST['albumPicture']))
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, "https://api.spotify.com/v1/albums/".$idAlbum);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, array('Authorization: Bearer ' . $_SESSION['token'] ));
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            $result = json_decode(curl_exec($ch));
+            curl_close($ch);
+
+            $albumIdSpotify = $idAlbum;
+            $albumName = $result->name;
+            if(isset($result->images[0]) && !empty($result->images[0]))
             {
-                $albumName = $_POST['albumName'];
-                $albumPicture = $_POST['albumPicture'];
+                $albumPicture = $result->images[0]->url;
             }
             else
             {
-                $albumName = "";
-                $albumPicture = "";
+                $albumPicture = '/pictures/no_file.png';
             }
 
             // Track
             $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, "https://api.spotify.com/v1/albums/".$idTrack."/tracks?limit=50");
+            curl_setopt($ch, CURLOPT_URL, "https://api.spotify.com/v1/albums/".$idAlbum."/tracks?limit=50");
             curl_setopt($ch, CURLOPT_HTTPHEADER, array('Authorization: Bearer ' . $_SESSION['token'] ));
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             $result = json_decode(curl_exec($ch));
@@ -41,10 +48,10 @@ class TrackController extends Controller
 
             foreach($result->items as $item)
             {
-                $trackSearch = new Track('', '', 0, 0, '', '', '');
+                $trackSearch = new Track('', '', 0, 0, '', '', '', '');
                 $resultSearch = $trackSearch->findBy(array('idSpotify' => $item->id));
 
-                $track = new Track($item->id, $item->name, $item->track_number, $item->duration_ms, $item->external_urls->spotify, $albumName, $albumPicture);
+                $track = new Track($item->id, $item->name, $item->track_number, $item->duration_ms, $item->external_urls->spotify, $albumIdSpotify, $albumName, $albumPicture);
                 if(!empty($resultSearch))
                 {
                     $track->setId($resultSearch[0]->id);
@@ -64,25 +71,27 @@ class TrackController extends Controller
 
     public function addFavorite()
     {
-        $track = new Track($_POST['idSpotify'], $_POST['name'], $_POST['trackNumber'], $_POST['duration'], $_POST['link'], $_POST['albumName'], $_POST['albumPicture']);
+        $track = new Track($_POST['idSpotify'], $_POST['name'], $_POST['trackNumber'], $_POST['duration'], $_POST['link'], $_POST['albumIdSpotify'], $_POST['albumName'], $_POST['albumPicture']);
 
         $track->create();
 
-        header("Location:/track/findFavorite");
+        header('Location:/track/list/'.$_POST['albumIdSpotify']);
     }
 
     public function deleteFavorite($id)
     {
-        $track = new Track('', '', 0, 0, '', '', '');
+        $track = new Track('', '', 0, 0, '', '', '', '');
+
+        $albumIdSpotify = $track->findBy(array('id' => $id))[0]->albumIdSpotify;
 
         $track->delete($id);
 
-        header("Location:/track/findFavorite");
+        header('Location:/track/list/'.$albumIdSpotify);
     }
 
     public function findFavorite()
     {
-        $track = new Track('', '', 0, 0, '', '', '');
+        $track = new Track('', '', 0, 0, '', '', '', '');
 
         $items = $track->findAll();
 
@@ -90,7 +99,7 @@ class TrackController extends Controller
 
         foreach ($items as $item)
         {
-            $track = new Track($item->idSpotify, $item->name, $item->trackNumber, $item->duration, $item->link, $item->albumName, $item->albumPicture);
+            $track = new Track($item->idSpotify, $item->name, $item->trackNumber, $item->duration, $item->link, $item->albumIdSpotify, $item->albumName, $item->albumPicture);
             $track->setId($item->id);
             array_push($tracks, $track);
         }

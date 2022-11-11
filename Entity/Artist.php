@@ -116,21 +116,21 @@ class Artist extends Model
         if(empty($resultSearch))
         {
             $favoriteAction =
-                "<form action='/SearchArtist/addFavorite' method='post' class='px-1' target='_blank'>
-                    <input type='hidden' name='idSpotify' value='".$this->getIdSpotify()."'>
-                    <input type='hidden' name='name' value='".$this->getName()."'>
-                    <input type='hidden' name='followers' value='".$this->getFollowers()."'>
-                    <input type='hidden' name='genders' value='". json_encode($this->getGenders()) ."'>
-                    <input type='hidden' name='link' value='".$this->getLink()."'>
-                    <input type='hidden' name='picture' value='".$this->getPicture()."'>
+                '<form action="/SearchArtist/addFavorite" method="post" class="px-1">
+                    <input type="hidden" name="idSpotify" value="'.$this->getIdSpotify().'">
+                    <input type="hidden" name="name" value="'.$this->getName().'">
+                    <input type="hidden" name="followers" value="'.$this->getFollowers().'">
+                    <input type="hidden" name="genders" '."value='". json_encode($this->getGenders()) ."'".'>
+                    <input type="hidden" name="link" value="'.$this->getLink().'">
+                    <input type="hidden" name="picture" value="'.$this->getPicture().'">
                     
-                    <button class='icon icon_star' type='submit' title='Cliquer pour ajouter cet artiste � vos favoris'></button>
-                </form>";
+                    <button class="icon icon_star" type="submit" title="Cliquer pour ajouter cet artiste à vos favoris"></button>
+                </form>';
         }
         else
         {
             $favoriteAction =
-                "<form action='/SearchArtist/deleteFavorite/".$this->getId()."' method='post' class='card-title px-1' target='_blank'>        
+                "<form action='/SearchArtist/deleteFavorite/".$this->getId()."' method='post' class='card-title px-1'>        
                     <button class='icon icon_star-fill text-warning' type='submit' title='Cliquer pour supprimer cet album de vos favoris'></button>
                 </form>";
         }

@@ -17,6 +17,8 @@ class Track extends Model
 
         public string $link,
 
+        public string $albumIdSpotify,
+
         public string $albumName,
 
         public string $albumPicture,
@@ -91,6 +93,17 @@ class Track extends Model
         return $this;
     }
 
+    public function getAlbumIdSpotify(): string
+    {
+        return $this->albumIdSpotify;
+    }
+
+    public function setIdAlbumSpotify(string $albumIdSpotify): self
+    {
+        $this->albumIdSpotify = $albumIdSpotify;
+        return $this;
+    }
+
     public function getAlbumName(): string
     {
         return $this->albumName;
@@ -115,28 +128,29 @@ class Track extends Model
 
     public function display(): string
     {
-        $trackSearch = new Track('', '', 0, 0, '', '', '');
+        $trackSearch = new Track('', '', 0, 0, '', '', '', '');
         $resultSearch = $trackSearch->findBy(array('idSpotify' => $this->getIdSpotify()));
 
         if(empty($resultSearch))
         {
             $favoriteAction =
-                "<form action='/track/addFavorite/" . $this->getIdSpotify() . "' method='post' class='card-title px-1' target='_blank'>
-                        <input type='hidden' name='idSpotify' value='" . $this->getIdSpotify() . "'>
-                        <input type='hidden' name='name' value='" . $this->getName() . "'>
-                        <input type='hidden' name='trackNumber' value='" . $this->getTrackNumber() . "'>
-                        <input type='hidden' name='duration' value='" . $this->getDuration() . "'>
-                        <input type='hidden' name='link' value='" . $this->getLink() . "'>
-                        <input type='hidden' name='albumName' value='" . $this->getAlbumName() . "'>
-                        <input type='hidden' name='albumPicture' value='" . $this->getAlbumPicture() . "'>
+                '<form action="/track/addFavorite/'.$this->getIdSpotify().'" method="post" class="card-title px-1">
+                        <input type="hidden" name="idSpotify" value="'.$this->getIdSpotify().'">
+                        <input type="hidden" name="name" value="'.$this->getName().'">
+                        <input type="hidden" name="trackNumber" value="'.$this->getTrackNumber().'">
+                        <input type="hidden" name="duration" value="'.$this->getDuration().'">
+                        <input type="hidden" name="link" value="'.$this->getLink().'">
+                        <input type="hidden" name="albumIdSpotify" value="'.$this->getAlbumIdSpotify().'">
+                        <input type="hidden" name="albumName" value="'.$this->getAlbumName().'">
+                        <input type="hidden" name="albumPicture" value="'.$this->getAlbumPicture().'">
                         
-                        <button class='icon icon_star' type='submit' title='Cliquer pour ajouter cette musique à vos favoris'></button>
-                </form>";
+                        <button class="icon icon_star" type="submit" title="Cliquer pour ajouter cette musique à vos favoris"></button>
+                </form>';
         }
         else
         {
             $favoriteAction =
-                "<form action='/track/deleteFavorite/".$this->getId()."' method='post' class='card-title px-1' target='_blank'>        
+                "<form action='/track/deleteFavorite/".$this->getId()."' method='post' class='card-title px-1'>        
                     <button class='icon icon_star-fill text-warning' type='submit' title='Cliquer pour supprimer cette musique de vos favoris'></button>
                 </form>";
         }

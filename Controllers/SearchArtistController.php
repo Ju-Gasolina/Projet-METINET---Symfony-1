@@ -55,13 +55,11 @@ class SearchArtistController extends Controller
 
     public function addFavorite()
     {
-        $genders = json_decode($_POST['genders']);
-
-        $artist = new Artist($_POST['idSpotify'], $_POST['name'], $_POST['followers'], $genders, $_POST['link'], $_POST['picture']);
+        $artist = new Artist($_POST['idSpotify'], $_POST['name'], $_POST['followers'], json_decode($_POST['genders']), $_POST['link'], $_POST['picture']);
 
         $artist->create();
 
-        header("Location:/searchArtist/findFavorite");
+        header("Location:/searchArtist/list".$_POST['q']);
     }
 
     public function deleteFavorite($id)
