@@ -6,7 +6,7 @@ class TestController extends Controller
 {
     public function index()
     {
-        $this->render('test/index');
+        $this->render('main/index', [], 'home');
     }
 
     public function test()

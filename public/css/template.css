@@ -1,4 +1,11 @@
 @charset "UTF-8";
+
+button {
+    margin: 0;
+    border: none;
+    background: none;
+}
+
 .toast-container .alert {
     margin: 0;
 }

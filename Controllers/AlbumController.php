@@ -7,7 +7,7 @@ class AlbumController extends Controller
 {
     public function index()
     {
-        $this->render('main/index');
+        $this->render('main/index', [], 'home');
     }
 
     public function list($id)
@@ -45,5 +45,46 @@ class AlbumController extends Controller
             $artist = "";
             $this->render('albums/list', compact('artist'));
         }
+    }
+
+    public function addFavorite($idSpotify)
+    {
+        $album = new Album('', '', '', 0, '', '');
+
+        if(empty($album->findBy(array('idSpotify' => $idSpotify))))
+        {
+            $album = new Album($_POST['idSpotify'], $_POST['name'], $_POST['releaseDate'], $_POST['totalTracks'], $_POST['link'], $_POST['picture']);
+
+            $album->create();
+        }
+
+        header("Location:/album/findFavorite");
+    }
+
+    public function deleteFavorite($id)
+    {
+        $album = new Album('', '', '', 0, '', '');
+
+        $album->delete($id);
+
+        header("Location:/album/findFavorite");
+    }
+
+    public function findFavorite()
+    {
+        $album = new Album('', '', '', 0, '', '');
+
+        $items = $album->findAll();
+
+        $albums = array();
+
+        foreach ($items as $item)
+        {
+            $album = new Album($item->idSpotify, $item->name, $item->releaseDate, $item->totalTracks, $item->link, $item->picture);
+            $album->setId($item->id);
+            array_push($albums, $album);
+        }
+
+        $this->render('albums/favorite', compact('albums'));
     }
 }

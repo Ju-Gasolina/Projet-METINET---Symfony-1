@@ -29,7 +29,14 @@ class Model extends Db
             // SELECT * FROM annonces WHERE actif = ? AND signale = 0
             // bindValue(1, valeur)
             $fields[] = "$field = ?";
-            $values[] = $value;
+            if(is_array($value))
+            {
+                $values[] = json_encode($value);
+            }
+            else
+            {
+                $values[] = $value;
+            }
 
         }
 

@@ -2,17 +2,18 @@
 
 namespace App\Entity;
 
-class Track
+class Track extends Model
 {
+    public int $id;
 
     public function __construct(
-        public string $id,
+        public string $idSpotify,
 
         public string $name,
 
-        public int $trackNumber,
+        public int    $trackNumber,
 
-        public int $duration,
+        public int    $duration,
 
         public string $link,
 
@@ -21,9 +22,10 @@ class Track
         public string $albumPicture,
     )
     {
+        $this->table = "tracks";
     }
 
-    public function getId(): string
+    public function getId(): int
     {
         return $this->id;
     }
@@ -31,6 +33,17 @@ class Track
     public function setId(string $id): self
     {
         $this->id = $id;
+        return $this;
+    }
+
+    public function getIdSpotify(): string
+    {
+        return $this->idSpotify;
+    }
+
+    public function setIdSpotify(string $idSpotify): self
+    {
+        $this->idSpotify = $idSpotify;
         return $this;
     }
 
@@ -106,13 +119,53 @@ class Track
             "
         <div class='col-lg-3 col-md-4 col-sm-6 mb-4'>
             <div class='card'>
-                <img class='card-img-top' src=".$this->getAlbumPicture()." alt='Photo de l\'album ".$this->getAlbumName()."'>
+                <img class='card-img-top' src=" . $this->getAlbumPicture() . " alt='Photo de l\'album " . $this->getAlbumName() . "'>
                 <div class='card-body'>
-                    <p class='card-title h5 text-center'>".$this->getName()."</p>
-                    <p class='card-text'>Numéro de la musique : ".$this->getTrackNumber()."</p>
-                    <p class='card-text'>Durée de la musique (en ms) : ".$this->getDuration()."</p>
+                    <div class='d-flex align-items-center justify-content-center'>
+                        <p class='card-title h5 text-center'>" . $this->getName() . "</p>
+                        <form action='/track/addFavorite/" . $this->getIdSpotify() . "' method='post' class='card-title px-1' target='_blank'>
+                                <input type='hidden' name='idSpotify' value='" . $this->getIdSpotify() . "'>
+                                <input type='hidden' name='name' value='" . $this->getName() . "'>
+                                <input type='hidden' name='trackNumber' value='" . $this->getTrackNumber() . "'>
+                                <input type='hidden' name='duration' value='" . $this->getDuration() . "'>
+                                <input type='hidden' name='link' value='" . $this->getLink() . "'>
+                                <input type='hidden' name='albumName' value='" . $this->getAlbumName() . "'>
+                                <input type='hidden' name='albumPicture' value='" . $this->getAlbumPicture() . "'>
+                                
+                                <button class='icon icon_star' type='submit' title='Cliquer pour ajouter cette musique à vos favoris'></button>
+                        </form>
+                    </div>
+                    
+                    <p class='card-text'>Numéro de la musique : " . $this->getTrackNumber() . "</p>
+                    <p class='card-text'>Durée de la musique (en ms) : " . $this->getDuration() . "</p>
                     <div class='text-center'>
-                        <a href=".$this->getLink()." class='btn btn-secondary text-white' title='Cliquer pour voir la page Spotify de cette musique' target='_blank'>Page Spotify de la musique</a>
+                        <a href=" . $this->getLink() . " class='btn btn-secondary text-white' title='Cliquer pour voir la page Spotify de cette musique' target='_blank'>Page Spotify de la musique</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        ";
+    }
+
+    public function displayFavorite(): string
+    {
+        return
+            "
+        <div class='col-lg-3 col-md-4 col-sm-6 mb-4'>
+            <div class='card'>
+                <img class='card-img-top' src=" . $this->getAlbumPicture() . " alt='Photo de l\'album " . $this->getAlbumName() . "'>
+                <div class='card-body'>
+                    <div class='d-flex align-items-center justify-content-center'>
+                        <p class='card-title h5 text-center'>" . $this->getName() . "</p>
+                        <form action='/track/deleteFavorite/".$this->getId()."' method='post' class='card-title px-1'>        
+                            <button class='icon icon_star-fill text-warning' type='submit' title='Cliquer pour supprimer cette musique de vos favoris'></button>
+                        </form>
+                    </div>
+                    
+                    <p class='card-text'>Numéro de la musique : " . $this->getTrackNumber() . "</p>
+                    <p class='card-text'>Durée de la musique (en ms) : " . $this->getDuration() . "</p>
+                    <div class='text-center'>
+                        <a href=" . $this->getLink() . " class='btn btn-secondary text-white' title='Cliquer pour voir la page Spotify de cette musique' target='_blank'>Page Spotify de la musique</a>
                     </div>
                 </div>
             </div>

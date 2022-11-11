@@ -24,14 +24,32 @@
                     </a>
                 </li>
                 <li>
-                    <a href="/test" class="nav-link text-white">
+                    <a href="/test/test" class="nav-link text-white">
                         <i class="icon icon_info-circle"></i>
                         Test
                     </a>
                 </li>
                 <li>
+                    <a href="/searchArtist/findFavorite" class="nav-link text-white">
+                        <i class="icon icon_star-fill"></i>
+                        Artistes favoris
+                    </a>
+                </li>
+                <li>
+                    <a href="/album/findFavorite" class="nav-link text-white">
+                        <i class="icon icon_star-fill"></i>
+                        Albums favoris
+                    </a>
+                </li>
+                <li>
+                    <a href="/track/findFavorite" class="nav-link text-white">
+                        <i class="icon icon_star-fill"></i>
+                        Musiques favorites
+                    </a>
+                </li>
+                <li>
                     <div id="nav-btn">
-                        <a href="/searchArtist/list" class="btn btn-outline-secondary">Search artist</a>
+                        <a href="/searchArtist/list" class="btn btn-outline-secondary">Rechercher un artiste</a>
                     </div>
                 </li>
             </ul>
