@@ -12,7 +12,7 @@
             {
                 foreach ($tracks as $track)
                 {
-                    echo $track->displayFavorite();
+                    echo $track->display();
                 }
             }
         ?>

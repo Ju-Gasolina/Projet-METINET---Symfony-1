@@ -12,7 +12,7 @@
             {
                 foreach ($albums as $album)
                 {
-                    echo $album->displayFavorite();
+                    echo $album->display();
                 }
             }
         ?>

@@ -41,7 +41,15 @@ class TrackController extends Controller
 
             foreach($result->items as $item)
             {
-                array_push($tracks, new Track($item->id, $item->name, $item->track_number, $item->duration_ms, $item->external_urls->spotify, $albumName, $albumPicture));
+                $trackSearch = new Track('', '', 0, 0, '', '', '');
+                $resultSearch = $trackSearch->findBy(array('idSpotify' => $item->id));
+
+                $track = new Track($item->id, $item->name, $item->track_number, $item->duration_ms, $item->external_urls->spotify, $albumName, $albumPicture);
+                if(!empty($resultSearch))
+                {
+                    $track->setId($resultSearch[0]->id);
+                }
+                array_push($tracks, $track);
             }
 
             $this->render('tracks/list', compact('tracks', 'albumName', 'artist'));
@@ -54,16 +62,11 @@ class TrackController extends Controller
         }
     }
 
-    public function addFavorite($idSpotify)
+    public function addFavorite()
     {
-        $track = new Track('', '', 0, 0, '', '', '');
+        $track = new Track($_POST['idSpotify'], $_POST['name'], $_POST['trackNumber'], $_POST['duration'], $_POST['link'], $_POST['albumName'], $_POST['albumPicture']);
 
-        if(empty($track->findBy(array('idSpotify' => $idSpotify))))
-        {
-            $track = new Track($_POST['idSpotify'], $_POST['name'], $_POST['trackNumber'], $_POST['duration'], $_POST['link'], $_POST['albumName'], $_POST['albumPicture']);
-
-            $track->create();
-        }
+        $track->create();
 
         header("Location:/track/findFavorite");
     }

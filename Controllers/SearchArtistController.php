@@ -34,7 +34,16 @@ class SearchArtistController extends Controller
                 } else {
                     $image = '/pictures/no_file.png';
                 }
-                array_push($artists, new Artist($item->id, $item->name, $item->followers->total, $item->genres, $item->href, $image));
+
+                $artistSearch = new Artist('', '', 0, array(), '', '');
+                $resultSearch = $artistSearch->findBy(array('idSpotify' => $item->id));
+
+                $artist = new Artist($item->id, $item->name, $item->followers->total, $item->genres, $item->href, $image);
+                if(!empty($resultSearch))
+                {
+                    $artist->setId($resultSearch[0]->id);
+                }
+                array_push($artists, $artist);
             }
 
             $this->render('search_artists/list', compact('q', 'artists'));
@@ -44,18 +53,13 @@ class SearchArtistController extends Controller
         }
     }
 
-    public function addFavorite($idSpotify)
+    public function addFavorite()
     {
-        $artist = new Artist('', '', 0, array(), '', '');
+        $genders = json_decode($_POST['genders']);
 
-        if(empty($artist->findBy(array('idSpotify' => $idSpotify))))
-        {
-            $genders = json_decode($_POST['genders']);
+        $artist = new Artist($_POST['idSpotify'], $_POST['name'], $_POST['followers'], $genders, $_POST['link'], $_POST['picture']);
 
-            $artist = new Artist($_POST['idSpotify'], $_POST['name'], $_POST['followers'], $genders, $_POST['link'], $_POST['picture']);
-
-            $artist->create();
-        }
+        $artist->create();
 
         header("Location:/searchArtist/findFavorite");
     }

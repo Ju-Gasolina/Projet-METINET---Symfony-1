@@ -27,7 +27,7 @@ class Album extends Model
         return $this->id;
     }
 
-    public function setId(string $id): self
+    public function setId(int $id): self
     {
         $this->id = $id;
         return $this;
@@ -102,44 +102,32 @@ class Album extends Model
 
     public function display(): string
     {
-        return
-            "
-        <div class='col-lg-3 col-md-4 col-sm-6 mb-4'>
-            <div class='card'>
-                <img class='card-img-top' src=".$this->getPicture()." alt='Photo de ".$this->getName()."'>
-                <div class='card-body'>
-                    <div class='d-flex align-items-center justify-content-center'>
-                        <p class='card-title h5 text-center'>".$this->getName()."</p>
-                        <form action='/album/addFavorite/".$this->getIdSpotify()."' method='post' class='card-title px-1' target='_blank'>
-                                <input type='hidden' name='idSpotify' value='".$this->getIdSpotify()."'>
-                                <input type='hidden' name='name' value='".$this->getName()."'>
-                                <input type='hidden' name='releaseDate' value='".$this->getReleaseDate()."'>
-                                <input type='hidden' name='totalTracks' value='".$this->getTotalTracks()."'>
-                                <input type='hidden' name='link' value='".$this->getLink()."'>
-                                <input type='hidden' name='picture' value='".$this->getPicture()."'>
-                                
-                                <button class='icon icon_star' type='submit' title='Cliquer pour ajouter cet album à vos favoris'></button>
-                        </form>
-                    </div>
-                        
-                    <p class='card-text'>Date de sortie : ".$this->getReleaseDate()."</p>
-                    <p class='card-text'>Nombre de musiques : ".$this->getTotalTracks()."</p>
-                    <div class='text-center'>
-                        <a href=".$this->getLink()." class='btn btn-secondary text-white' title='Cliquer pour voir la page Spotify de cet albums' target='_blank'>Page Spotify de l'album</a>
-                         <form action='/track/list/".$this->getIdSpotify()."' method='post' target='_blank'>
-                            <input type='hidden' name='albumName' value='".$this->getName()."'>
-                            <input type='hidden' name='albumPicture' value='".$this->getPicture()."'>
-                            <button class='btn btn-secondary text-white' type='submit' title='Cliquer pour voir les musiques de cet album'>Musiques de cet album</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-        ";
-    }
+        $albumSearch = new Album('', '', 0, 0, '', '');
+        $resultSearch = $albumSearch->findBy(array('idSpotify' => $this->getIdSpotify()));
 
-    public function displayFavorite(): string
-    {
+        if(empty($resultSearch))
+        {
+            $favoriteAction =
+                "<form action='/album/addFavorite/".$this->getIdSpotify()."' method='post' class='card-title px-1' target='_blank'>
+                    <input type='hidden' name='idSpotify' value='".$this->getIdSpotify()."'>
+                    <input type='hidden' name='name' value='".$this->getName()."'>
+                    <input type='hidden' name='releaseDate' value='".$this->getReleaseDate()."'>
+                    <input type='hidden' name='totalTracks' value='".$this->getTotalTracks()."'>
+                    <input type='hidden' name='link' value='".$this->getLink()."'>
+                    <input type='hidden' name='picture' value='".$this->getPicture()."'>
+                    
+                    <button class='icon icon_star' type='submit' title='Cliquer pour ajouter cet album à vos favoris'></button>
+                </form>";
+        }
+        else
+        {
+            $favoriteAction =
+                "<form action='/album/deleteFavorite/".$this->getId()."' method='post' class='card-title px-1' target='_blank'>        
+                    <button class='icon icon_star-fill text-warning' type='submit' title='Cliquer pour supprimer cet album de vos favoris'></button>
+                </form>";
+        }
+
+
         return
             "
         <div class='col-lg-3 col-md-4 col-sm-6 mb-4'>
@@ -147,12 +135,10 @@ class Album extends Model
                 <img class='card-img-top' src=".$this->getPicture()." alt='Photo de ".$this->getName()."'>
                 <div class='card-body'>
                     <div class='d-flex align-items-center justify-content-center'>
-                        <p class='card-title h5 text-center'>".$this->getName()."</p>
-                        <form action='/album/deleteFavorite/".$this->getId()."' method='post' class='card-title px-1'>        
-                            <button class='icon icon_star-fill text-warning' type='submit' title='Cliquer pour supprimer cet album de vos favoris'></button>
-                        </form>
-                    </div>
-                    
+                        <p class='card-title h5 text-center'>".$this->getName()."</p>"
+                    . $favoriteAction .
+                    "</div>
+                        
                     <p class='card-text'>Date de sortie : ".$this->getReleaseDate()."</p>
                     <p class='card-text'>Nombre de musiques : ".$this->getTotalTracks()."</p>
                     <div class='text-center'>

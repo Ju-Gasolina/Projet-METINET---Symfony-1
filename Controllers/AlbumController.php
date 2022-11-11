@@ -35,7 +35,16 @@ class AlbumController extends Controller
                 {
                     $image = '/pictures/no_file.png';
                 }
-                array_push($albums, new Album($item->id, $item->name, $item->release_date, $item->total_tracks, $item->external_urls->spotify, $image));
+
+                $albumSearch = new Album('', '', '', 0, '', '');
+                $resultSearch = $albumSearch->findBy(array('idSpotify' => $item->id));
+
+                $album = new Album($item->id, $item->name, $item->release_date, $item->total_tracks, $item->external_urls->spotify, $image);
+                if(!empty($resultSearch))
+                {
+                    $album->setId($resultSearch[0]->id);
+                }
+                array_push($albums, $album);
             }
 
             $this->render('albums/list', compact('albums', 'artist'));
@@ -47,16 +56,11 @@ class AlbumController extends Controller
         }
     }
 
-    public function addFavorite($idSpotify)
+    public function addFavorite()
     {
-        $album = new Album('', '', '', 0, '', '');
+        $album = new Album($_POST['idSpotify'], $_POST['name'], $_POST['releaseDate'], $_POST['totalTracks'], $_POST['link'], $_POST['picture']);
 
-        if(empty($album->findBy(array('idSpotify' => $idSpotify))))
-        {
-            $album = new Album($_POST['idSpotify'], $_POST['name'], $_POST['releaseDate'], $_POST['totalTracks'], $_POST['link'], $_POST['picture']);
-
-            $album->create();
-        }
+        $album->create();
 
         header("Location:/album/findFavorite");
     }

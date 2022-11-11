@@ -12,7 +12,7 @@
             {
                 foreach ($artists as $artist)
                 {
-                    echo $artist->displayFavorite();
+                    echo $artist->display();
                 }
             }
         ?>
