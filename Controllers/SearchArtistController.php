@@ -59,7 +59,7 @@ class SearchArtistController extends Controller
 
         $artist->create();
 
-        header("Location:/searchArtist/list".$_POST['q']);
+        header("Location:/searchArtist/list");
     }
 
     public function deleteFavorite($id)
